@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Calculator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .error-icon {
+            display: none;
+            position: absolute;
+            right: 5px;
+            top: 8px;
+        }
+
+       /* Increase modal body height */
+       .modal-body {
+            max-height: calc(100vh - 210px);
+            overflow-y: auto;
+       }
+
+       .form-group {
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+       }
+
+       .form-group label {
+            font-weight: bold;
+       }
+
+       .form-control:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+       }
+
+       .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+       }
+
+       .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+       }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <form id="taxForm">
+            
+            <div class="form-group">
+                <label for="income">Enter Gross Annual Income (₹):</label>
+                <input type="number" class="form-control" id="income" name="income" placeholder="Enter Gross Annual Income (₹)">
+                <span class="error-icon" id="incomeErrorIcon" title="Enter a valid income">*</span>
+            </div>
+            <div class="form-group">
+                <label for="extraIncome">Enter Extra Income (₹):</label>
+                <input type="number" class="form-control" id="extraIncome" name="extraIncome" placeholder="Enter Extra Income:">
+                <span class="error-icon" id="extraIncomeErrorIcon" title="Enter a valid extra income">*</span>
+            </div>
+            <div class="form-group">
+                <label for="age">Enter Age Group:</label>
+                <select class="form-control" id="age" name="age">
+                    <option value="<40">&lt; 40</option>
+                    <option value=">=40 & <60">&ge; 40 &lt; 60</option>
+                    <option value=">=60">&ge; 60</option>
+                </select>
+                <span class="error-icon" id="ageErrorIcon" title="Age is mandatory">*</span>
+            </div>
+            <div class="form-group">
+                <label for="deductions">Enter applicable Deductions (₹):</label>
+                <input type="number" class="form-control" id="deductions" name="deductions" placeholder="Add applicable total deductions">
+                <span class="error-icon" id="deductionsErrorIcon" title="Enter a valid deduction">*</span>
+            </div>
+            <button type="button" class="btn btn-primary" id="calculateBtn">Submit</button>
+        </form>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="resultModal" tabindex="-1" role="dialog" aria-labelledby="resultModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resultModalLabel">Your Overall income</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="resultModalBody">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#calculateBtn').click(function () {
+                var age = $('#age').val();
+                var income = $('#income').val();
+                var deductions = $('#deductions').val();
+                var extraIncome = $('#extraIncome').val();
+
+                // Validate inputs
+                var isValid = true;
+                if (!age) {
+                    $('#ageErrorIcon').show();
+                    isValid = false;
+                } else {
+                    $('#ageErrorIcon').hide();
+                }
+                if (!income) {
+                    $('#incomeErrorIcon').show();
+                    isValid = false;
+                } else {
+                    $('#incomeErrorIcon').hide();
+                }
+                if (!deductions) {
+                    $('#deductionsErrorIcon').show();
+                    isValid = false;
+                } else {
+                    $('#deductionsErrorIcon').hide();
+                }
+                if (!extraIncome) {
+                    $('#extraIncomeErrorIcon').show();
+                    isValid = false;
+                } else {
+                    $('#extraIncomeErrorIcon').hide();
+                }
+
+                if (!isValid) {
+                    return;
+                }
+
+                var totalIncome = parseInt(income) + parseInt(extraIncome);
+                var taxRate = 0;
+                if (age == '<40') {
+                    if (totalIncome - deductions > 800000) {
+                        taxRate = 0.30;
+                    }
+                } else if (age == '>=40 & <60') {
+                    if (totalIncome - deductions > 800000) {
+                        taxRate = 0.40;
+                    }
+                } else if (age == '>=60') {
+                    if (totalIncome - deductions > 800000) {
+                        taxRate = 0.10;
+                    }
+                }
+
+                var taxAmount = (totalIncome - deductions - 800000) * taxRate;
+                $('#resultModalBody').html('Tax Amount: ₹' + taxAmount.toLocaleString() + '<br><button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>');
+                $('#resultModal').modal('show');
+            });
+        });
+    </script>
+</body>
+</html>
