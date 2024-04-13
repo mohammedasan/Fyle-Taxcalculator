@@ -1,6 +1,7 @@
 Fyle-TaxCalculator
 ![Screenshot (25)](https://github.com/mohammedasan/Fyle-Taxcalculator/assets/151814338/b14fb869-a1ef-4f0c-8567-160068322a87)
 ![Screenshot (26)](https://github.com/mohammedasan/Fyle-Taxcalculator/assets/151814338/2fe7374c-26cb-46c6-919e-6ba35452a204)
+Checkout my Tax Calculator https://mohammedasan.github.io/Fyle-Taxcalculator/
 Development of Tax Calculator Project
 Introduction
 This project is a web-based tax calculator developed using HTML, CSS, JavaScript, and Bootstrap framework. The purpose of this project is to create a user-friendly tool for calculating tax based on different age groups, income, and deductions.
@@ -11,6 +12,7 @@ CSS: Applied styles for layout, design, and responsiveness.
 Bootstrap: Utilized Bootstrap framework for enhanced styling and components like modals and form controls.
 JavaScript: Implemented client-side validation and tax calculation logic.
 jQuery: Used jQuery library for DOM manipulation and event handling.
+Here:https://mohammedasan.github.io/Fyle-Taxcalculator/
 Features
 Input Form:
 
